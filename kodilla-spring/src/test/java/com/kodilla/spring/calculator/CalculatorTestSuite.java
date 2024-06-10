@@ -1,16 +1,19 @@
 package com.kodilla.spring.calculator;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = {Calculator.class, Display.class})
+@ExtendWith(MockitoExtension.class)
 public class CalculatorTestSuite {
-    @Autowired
-    private Calculator calculator;
-
-    @Autowired
+    @Mock
     private Display display;
+
+    @InjectMocks
+    private Calculator calculator;
 
     @Test
     public void testCalculations() {
@@ -25,9 +28,9 @@ public class CalculatorTestSuite {
         double divResult = calculator.div(a, b);
 
         // Then
-        display.displayValue(addResult);
-        display.displayValue(subResult);
-        display.displayValue(mulResult);
-        display.displayValue(divResult);
+        verify(display, times(1)).displayValue(addResult);
+        verify(display, times(1)).displayValue(subResult);
+        verify(display, times(1)).displayValue(mulResult);
+        verify(display, times(1)).displayValue(divResult);
     }
 }
